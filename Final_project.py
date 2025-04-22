@@ -92,7 +92,41 @@ valued at {inventory[key]}$")
 if __name__ == "__main__":
     Digging_holes()
 # sebas
-# New idea about shop in-game - can't use user input - Aminata
+
+# data about user
+user = { 
+    "money" : 150,
+    "inventory" : {}
+}
+# example/mock shop data
+shop = {
+    "items" : {
+        "banana" : 5,
+        "apple" : 2,
+        "gem" : 50
+    }
+}
+
+def buy(item):
+    price = shop["items"].get(item)
+    if price is None:
+        return f"Item '{item}' was not found in shop."
+    if user["money"] < price:
+        return f"Not enough money for {item}."
+    
+    user["money"] -= price
+    user["inventory"].append(item)
+    return f"{item} has been bought. Current balance: ${user['money']}"
+
+def sell(item):
+    if item not in user["inventory"]:
+        return f"{item} is not in inventory. Unable to sell."
+    
+    price = shop["items"].get(item, 0)
+    user["money"] += price
+    user["inventory"].remove(item)
+    return f"{item} was sold! Current balance: ${user['money']}"
+
 # add healthbar and healthbar data - ian
 #global values that will be changed/moved later
 current_hunger = 50
