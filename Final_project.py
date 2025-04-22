@@ -94,4 +94,20 @@ if __name__ == "__main__":
 # sebas
 # New idea about shop in-game - can't use user input - Aminata
 # add healthbar and healthbar data - ian
+#global values that will be changed/moved later
+current_hunger = 50
+max_hunger = 100
+def eat(food_item):
+    global current_hunger
+
+    if not isinstance(food_item, dict) or 'name' not in food_item or 'restore' not in food_item:
+        print("Invalid food item.")
+        return
+
+    restored = food_item['restore']
+    current_hunger += restored
+    current_hunger = min(current_hunger, max_hunger)
+
+    print(f"You ate {food_item['name']} and restored {restored} hunger.")
+    print(f"Current hunger: {current_hunger}/{max_hunger}")
 # create json file + find more specific algorithm - Seun
