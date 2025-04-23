@@ -145,7 +145,8 @@ def eat(food_item):
     print(f"You ate {food_item['name']} and restored {restored} hunger.")
     print(f"Current hunger: {current_hunger}/{max_hunger}")
 # create json file + find more specific algorithm - Seun
-# Function does the logic
+# Deducts rent from the player's money at the end of each day.
+    Handles eviction logic if it's the final day and the player can't pay.
 def rent(player_money, rent_amount, day_number, eviction_day=7):
     if player_money >= rent_amount:
         player_money -= rent_amount
