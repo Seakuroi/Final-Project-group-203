@@ -1,14 +1,12 @@
 # Randomization + validation of user input algo - Sebas
 from random import randint
 
-def Digging_holes(): 
-        # for now inventory will be empty but this will be an argument later
-        inventory = {}
-        example_json_common = {"common":["potato", "trash", "soda"]}
-        example_json_rare = {"rare":["potato", "trash", "soda"]}
-        example_json_super_rare = {"super_rare":["potato", "trash", "soda"]}
-        example_json_legendary = {"legendary":["potato", "trash", "soda"]}
-        example_json_rarity2 = {"potato":2, "trash": 3, "soda":6}
+def Digging_holes(inventory, holes_dug_today): 
+        example_json_common = {"common":["potato", "trash", "soda","grape"]}
+        example_json_rare = {"rare":["potato", "trash", "soda","grape"]}
+        example_json_super_rare = {"super_rare":["potato", "trash", "soda","grape"]}
+        example_json_legendary = {"legendary":["potato", "trash", "soda","grape"]}
+        example_json_rarity2 = {"potato":2, "trash": 3, "soda":6, "grape":5}
         holes_dug = []
         holes_dug_today = 1
         while True:
@@ -35,10 +33,10 @@ already been dug for the day. \n Please try again")
                 if (item_value <= 65):
                     item_list = example_json_common["common"]
                     # this range will be adjusted for items 
-                    list_value = randint(0, 2)
+                    list_value = randint(0, 3)
                     key = item_list[list_value]
                     while (key in inventory ):
-                        list_value = randint(0, 2)
+                        list_value = randint(0, 3)
                         key = item_list[list_value]
                     inventory[key] = example_json_rarity2[key]
                     print(f"You have just recived a {key}, it is currently \
@@ -87,16 +85,12 @@ valued at {inventory[key]}$")
                     print("You have no more digs remaining go sell your items\
  at the shop!!!")
                     print (f"Your current inventory is {inventory}")
-                    return inventory
-        
-if __name__ == "__main__":
-    Digging_holes()
-# sebas
+                    return inventory, holes_dug_today
 
 # data about user
 user = { 
     "money" : 150,
-    "inventory" : {}
+    "inventory" : []
 }
 # example/mock shop data
 shop = {
@@ -153,10 +147,113 @@ def rent(player_money, rent_amount, day_number, eviction_day=7):
         print(f"Paid ${rent_amount} in rent. Remaining: ${player_money}")
     else:
         eviction_status = (day_number == eviction_day)
-        print(f"Couldn't pay full rent! You only have ${player_money}")
+        player_money -= rent_amount
+        print(f"Couldn't pay full rent! You now have ${player_money}")
         if eviction_status:
             print("Eviction day! You are evicted.")
         else:
             print("Not enough money for rent, but not eviction day yet.") 
                
     return player_money, eviction_status
+# where the program runs from-sebas
+def main():
+    inventory = {}
+    holesdug = 1
+    playersmoney = 0
+    day = 0
+    didyoulose = False
+    print("You're living as an unsuccessful farmer. Your crops have been \
+neglected and you need money! Your last resort digging holes on your farm! Sell\
+the items you find to pay your rent!!!")
+    while True:
+        answer = input("Please select an option \n[1] Dig a hole?\
+\n[2] Sell your items?\
+\n[3] Eat some food?\
+\n[4] Sleep for the day\n")
+        try: 
+            int(answer)
+        except ValueError:
+            print("unfortunately your input is not a int try again")
+            continue
+        else:
+            answer = int(answer)
+            if(answer < 1 or answer > 4):
+                print("unfortunately you have not choosen a number 1-4")
+        if (answer == 1):
+            if (holesdug == 3):
+                print("unfortunately you have no more digs left for the day")
+                continue
+            inventory,holesdug = Digging_holes(inventory, holesdug)
+            
+        
+        elif (answer == 2):
+            print (f"Your current inventory is {inventory}")
+            print (f"The items avaliable to buy are {shop}")
+            while (True):
+                buying = input("if you would like to buy an item select 1 if \
+you if you would like to sell an item select 2 if you wish to exit select 3?\
+\n[1] Buy a item?\n[2] Sell your items?\n[3] exit?\n")
+                try: 
+                    int(buying)
+                except ValueError:
+                    print("unfortunately your input is not a int try again")
+                    continue
+                else:
+                    buying = int(buying)
+                    if(buying < 1 or buying > 3):
+                        print("unfortunately you have not choosen a number 1-3")
+                if (buying == 1):
+                    whattobuy = input("What do you want to buy?\n")
+                    print(buy(whattobuy))
+                elif (buying == 2):
+                    whattosell = input("What do you want to sell?\n")
+                    print(sell(whattosell))
+                else:
+                    break
+        elif (answer == 3):
+             while (True):
+                 print(f"You're current hunger level is at {current_hunger}")
+                 eating = input("if you would like to eat some food select 1 if \
+you if you would like to exit select 2?\
+\n[1] Eat some food?\n[2] exit?\n")
+                 try: 
+                    int(eating)
+                 except ValueError:
+                    print("unfortunately your input is not a int try again")
+                    continue
+                 else:
+                    eating = int(eating)
+                    if(eating < 1 or eating > 2):
+                        print("unfortunately you have not choosen a number 1-2")
+                 if (eating == 1):
+                    whattoeat = input("what item do you want to eat?\n")
+                    print(eat(whattoeat))
+                 else:
+                    break
+             
+                     
+                
+        else:
+            holesdug = 1
+            if (playersmoney > 299):
+                print("You did it you raised enough money to buy the land!!!")
+                print("CONGRATS!!!")
+                break
+            else:
+                playersmoney, didyoulose = rent(playersmoney, 15, day)
+                if (didyoulose == True):
+                    print("unfortunately your land was taken better luck next\
+ time")
+                    break
+                elif (playersmoney < 15):
+                    print(f"You've gone into debt! you have {7-(day+1)} days\
+ remaining to get 300$")
+                    day += 1
+                else:
+                    print(f"rent was payed for today! you have {7-(day+1)} days\
+ remaining to get 300$")
+                    day += 1
+
+
+if __name__ == "__main__":
+    main()
