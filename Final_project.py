@@ -205,6 +205,16 @@ food_items = {
 }
 
 def eat(food_name):
+    """Consume a food item to restore hunger based on its name.
+    
+    Args:
+    food_name (str): The name of the food item to consume.
+    
+    Returns:
+    None: Prints the name of the food, amount of hunger restored, 
+    and the current hunger level. If the food name is invalid, 
+    prints an error message instead.
+    """
     global current_hunger
 
     if food_name not in food_items:
