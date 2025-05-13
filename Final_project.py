@@ -119,15 +119,15 @@ shop = {
 def buy(money, inventory, item):
     price = shop[item]
     if price is None:
-        return f"Item '{item}' was not found in shop."
+        return f"Item '{item}' was not found in shop.", money
     if money < price:
-        return f"Not enough money for {item}."
+        return f"Not enough money for {item}.", money
     if item in inventory:
-        return f"You already own {item}."
+        return f"You already own {item}.",money
     
     confirm = input(f"Item: {item}, Price: ${price}. Confirm purchase? (y/n):")
     if confirm.lower() != "y":
-        return "Purchase canceled."
+        return "Purchase canceled.",money
 
     inventory[item] = shop[item]
     money -= price
@@ -135,11 +135,11 @@ def buy(money, inventory, item):
 
 def sell(money, inventory, item):
     if item not in inventory:
-        return f"{item} is not in inventory. Unable to sell."
+        return f"{item} is not in inventory. Unable to sell.",money
     
     confirm = input(f"Selling {item} for ${inventory[item]}. Confirm sell? (y/n):")
     if confirm.lower() != "y":
-        return "Sale canceled."
+        return "Sale canceled.",money
     money += inventory[item]
     del inventory[item]
     return f"{item} was sold! Current balance: ${money}",money
@@ -182,7 +182,7 @@ def rent(player_money, rent_amount, day_number, eviction_day=7):
 def main():
     inventory = {}
     holesdug = 1
-    playersmoney = 100
+    playersmoney = 0
     day = 0
     didyoulose = False
     print("You're living as an unsuccessful farmer. Your crops have been \
