@@ -1,5 +1,6 @@
 # Randomization + validation of user input algo - Sebas
 from random import randint
+import json
 
 def Digging_holes(inventory, holes_dug_today): 
         common_dictionary = {"common":["paper", "water bottle","can",\
@@ -229,9 +230,53 @@ def pass_day(dug):
     current_hunger = max(current_hunger, 0)
     print(f"A day has passed. Hunger decreased by {daily_hunger_loss}.")
     print(f"Current hunger: {current_hunger}/{max_hunger}")
-# create json file + find more specific algorithm - Seun
+# create json file w item rarities for the game+ find more specific algorithm - Seun
+def create_item_rarity_json(filename):
+    """
+    Author: Seun
+    Creates a JSON file containing item rarities for the game.
+
+    Args:
+        filename (str): The name of the file where item rarities will be saved.
+
+    Returns:
+        None: This function does not return anything. It writes the item rarities to the specified JSON file.
+    """
+    item_rarities = {
+        "paper": 4, "water bottle": 4, "can": 4,
+        "scrap metal": 5, "plastic": 5, "rock": 5, "dirt": 5,
+        "feather": 6, "shell": 6, "sticker": 6,
+        "beer bottle": 7, "boot": 7, "worm": 7, "candy wrapper": 7,
+        "paper towel": 7, "trash": 7, "beetle": 8, "spider": 8,
+        "hair clip": 9, "grass": 10, "hay": 10, "soda": 15, "beer": 15,
+        "coin": 15, "marble": 15, "action figure": 17, "hat": 17,
+        "bone": 17, "tooth": 19, "key chain": 20, "pen": 20,
+        "lighter": 22, "pin": 22, "25$ dollars": 25, "sandel": 25,
+        "shirt": 25, "Gold ring": 40, "silver coin": 43, "camera": 43,
+        "watch": 45, "ruby": 50, "fossile": 55, "gun": 60,
+        "coin jar": 66, "painting": 70, "iphone": 120,
+        "treasure map": 150, "diamond": 180, "200$ dollars": 200,
+        "oil reserve": 250
+    }
+
+    with open(filename, "w") as file:
+        json.dump(item_rarities, file, indent=4)
 # Deducts rent from the player's money at the end of each day.
 def rent(player_money, rent_amount, day_number, eviction_day=7):
+    """
+    Author: Seun
+    Deducts rent from the player's money at the end of each day.
+
+    Args:
+        player_money (int): The player's amount of money.
+        rent_amount (int): The amount of rent to be paid.
+        day_number (int): The current day number.
+        eviction_day (int, optional): The day eviction occurs if rent is unpaid. Defaults to 7.
+
+    Returns:
+        int: The player's updated amount of money.
+        bool: Eviction status (True if evicted, False otherwise).
+    """
     if player_money >= rent_amount:
         player_money -= rent_amount
         eviction_status = False
