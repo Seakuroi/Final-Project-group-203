@@ -2,11 +2,26 @@
 from random import randint
 
 def Digging_holes(inventory, holes_dug_today): 
-        example_json_common = {"common":["potato", "trash", "soda","grape"]}
-        example_json_rare = {"rare":["potato", "trash", "soda","grape"]}
-        example_json_super_rare = {"super_rare":["potato", "trash", "soda","grape"]}
-        example_json_legendary = {"legendary":["potato", "trash", "soda","grape"]}
-        example_json_rarity2 = {"potato":2, "trash": 3, "soda":6, "grape":5}
+        common_dictionary = {"common":["paper", "water bottle","can",\
+"scrap metal","plastic","rock","dirt","feather","shell","sticker","beer bottle"\
+,"boot","worm","candy wrapper","paper towel","trash","beetle","spider","hair\
+ clip","grass","hay"]}
+        rare_dictionary = {"rare":["soda", "beer", "coin","marble","action \
+figure","hat","bone","tooth","key chain","pen","lighter","pin","25$ dollars",\
+"sandel","shirt"]}
+        super_rare_dictionary = {"super_rare":["Gold ring", "silver coin",\
+"camera","watch","ruby","fossile","gun","coin jar","painting"]}
+        legendary_dictionary = {"legendary":["iphone", "treasure map", \
+"diamond","200$ bill", "oil reserve"]}
+        example_json_rarity2 = {"paper":4, "water bottle":4,"can":4,\
+"scrap metal":5,"plastic":5,"rock":5,"dirt":5,"feather":6,"shell":6,"sticker":6\
+,"beer bottle":7,"boot":7,"worm":7,"candy wrapper":7,"paper towel":7,"trash":7,\
+"beetle":8,"spider":8,"hair clip":9,"grass":10,"hay":10,"soda":15, "beer":15, \
+"coin": 15,"marble": 15,"action figure":17,"hat":17,"bone":17,"tooth":19,"key \
+chain":20,"pen":20,"lighter":22,"pin":22,"25$ dollars":25,"sandel":25,"shirt"\
+:25,"Gold ring":40, "silver coin":43,"camera":43,"watch":45,"ruby":50,"fossile"\
+:55,"gun":60,"coin jar":66,"painting":70,"iphone":120, "treasure map":150, \
+"diamond":180,"200$ dollars":200, "oil reserve":250}
         holes_dug = []
         holes_dug_today = 1
         while True:
@@ -29,44 +44,62 @@ already been dug for the day. \n Please try again")
                     continue
             if ((hole >= 1 and hole <= 10) and hole not in\
                 holes_dug):
-                item_value =  randint(0, 100)
-                if (item_value <= 65):
-                    item_list = example_json_common["common"]
+                empty_hole = randint(1,10)
+                item_value = "none" if hole == empty_hole else randint(0, 100)
+                if item_value == "none":
+                    print("Nothing in this hole :(")
+                    if (holes_dug_today == 1):
+                        print("You have 2 more digs remaining")
+                        holes_dug.append(hole)
+                        holes_dug_today += 1
+                        continue
+                    elif (holes_dug_today == 2):
+                        print("You have 1 more dig remaining")
+                        holes_dug.append(hole)
+                        holes_dug_today += 1
+                        continue
+                    else:
+                        print("You have no more digs remaining go sell your\
+items at the shop!!!")
+                        print (f"Your current inventory is {inventory}")
+                    return inventory, holes_dug_today
+                elif (item_value <= 65):
+                    item_list = common_dictionary["common"]
                     # this range will be adjusted for items 
-                    list_value = randint(0, 3)
+                    list_value = randint(0, 20)
                     key = item_list[list_value]
                     while (key in inventory ):
-                        list_value = randint(0, 3)
+                        list_value = randint(0, 20)
                         key = item_list[list_value]
                     inventory[key] = example_json_rarity2[key]
                     print(f"You have just recived a {key}, it is currently \
 valued at {inventory[key]}$")
                 elif(item_value <= 90):
-                    item_list = example_json_rare["rare"]
-                    list_value = randint(0, 2)
+                    item_list = rare_dictionary["rare"]
+                    list_value = randint(0, 14)
                     key = item_list[list_value]
                     while (key in inventory ):
-                        list_value = randint(0, 2)
+                        list_value = randint(0, 14)
                         key = item_list[list_value]
                     inventory[key] = example_json_rarity2[key]
                     print(f"You have just recived a {key}, it is currently \
 valued at {inventory[key]}$")
                 elif(item_value <= 99):
-                    item_list = example_json_super_rare["super_rare"]
-                    list_value = randint(0, 2)
+                    item_list = super_rare_dictionary["super_rare"]
+                    list_value = randint(0, 9)
                     key = item_list[list_value]
                     while (key in inventory ):
-                        list_value = randint(0, 2)
+                        list_value = randint(0, 9)
                         key = item_list[list_value]
                     inventory[key] = example_json_rarity2[key]
                     print(f"You have just recived a {key}, it is currently \
 valued at {inventory[key]}$")
-                else:
-                    item_list = example_json_legendary["legendary"]
-                    list_value = randint(0, 2)
+                elif(item_value <= 100):
+                    item_list = legendary_dictionary["legendary"]
+                    list_value = randint(0, 4)
                     key = item_list[list_value]
                     while (key in inventory ):
-                        list_value = randint(0, 2)
+                        list_value = randint(0, 4)
                         key = item_list[list_value]
                     inventory[key] = example_json_rarity2[key]
                     print(f"You have just recived a {key}, it is currently \
@@ -87,51 +120,98 @@ valued at {inventory[key]}$")
                     print (f"Your current inventory is {inventory}")
                     return inventory, holes_dug_today
 
-# data about user
-user = { 
-    "money" : 150,
-    "inventory" : []
-}
-# example/mock shop data
+
+# shop data
 shop = {
-    "items" : {
         "banana" : 5,
         "apple" : 2,
-        "gem" : 50
-    }
+        "chicken" : 10,
+        "steak" : 20,
+        "tuna" : 7,
+        "cake" : 30,
+        "ice cream" : 13,
+        "pasta" : 12,
+        "full restore" : 50,
 }
 
-def buy(item):
-    price = shop["items"].get(item)
-    if price is None:
-        return f"Item '{item}' was not found in shop."
-    if user["money"] < price:
-        return f"Not enough money for {item}."
-    
-    user["money"] -= price
-    user["inventory"].append(item)
-    return f"{item} has been bought. Current balance: ${user['money']}"
+def buy(money, inventory, item):
+    """Author: Aminata
+    Allows user to buy item from shop.
 
-def sell(item):
-    if item not in user["inventory"]:
-        return f"{item} is not in inventory. Unable to sell."
+    Args:
+    money (int): The player's amount of money.
+    inventory (list): The player's inventory.
+    item (str): The name of the item the player wishes to buy.
+
+    Returns:
+    money (int): The player's updated amount of money.
+    inventory (list): The player's updated inventory
+    str: Returns messages about the transaction.
+    """
+    price = shop[item]
+    if price is None:
+        return f"Item '{item}' was not found in shop.", money
+    if money < price:
+        return f"Not enough money for {item}.", money
+    if item in inventory:
+        return f"You already own {item}.",money
     
-    price = shop["items"].get(item, 0)
-    user["money"] += price
-    user["inventory"].remove(item)
-    return f"{item} was sold! Current balance: ${user['money']}"
+    confirm = input(f"Item: {item}, Price: ${price}. Confirm purchase? (y/n):")
+    if confirm.lower() != "y":
+        return "Purchase canceled.",money
+
+    inventory[item] = shop[item]
+    money -= price
+    return f"{item} has been bought. Current balance: ${money}" ,money
+
+def sell(money, inventory, item):
+    """Author: Aminata
+    Allows user to sell item from their inventory.
+
+    Args:
+    money (int): The player's amount of money.
+    inventory (list): The player's inventory.
+    item (str): The name of the item the player wishes to sell.
+
+    Returns:
+    money (int): The player's updated amount of money.
+    inventory (list): The player's updated inventory
+    str: Returns messages about the sale.
+    """
+    if item not in inventory:
+        return f"{item} is not in inventory. Unable to sell.",money
+    
+    confirm = input(f"Selling {item} for ${inventory[item]}. Confirm sale? (y/n):")
+    if confirm.lower() != "y":
+        return "Sale canceled.",money
+    money += inventory[item]
+    del inventory[item]
+    return f"{item} was sold! Current balance: ${money}",money
 
 # add healthbar and healthbar data - ian
 #global values that will be changed/moved later
 current_hunger = 5
-max_hunger = 100
-def eat(food_item):
+max_hunger = 25
+food_items = {
+    "banana": {"name": "banana","restore": 3},
+    "apple": {"name": "apple","restore": 1},
+    "chicken": {"name": "chicken","restore": 6},
+    "steak": {"name": "steak","restore": 8},
+    "tuna": {"name": "tuna","restore": 4},
+    "cake": {"name": "cake","restore": 15},
+    "ice cream": {"name": "ice cream","restore": 10},
+    "pasta": {"name": "pasta","restore": 9},
+    "full restore": { "name": "full restore", "restore": 25}
+}
+
+def eat(food_name):
     global current_hunger
 
-    if not isinstance(food_item, dict) or 'name' not in food_item or 'restore' not in food_item:
-        print("Invalid food item.")
+    if food_name not in food_items:
+        print("Food item not found.")
         return
 
+    food_item = food_items[food_name]
     restored = food_item['restore']
     current_hunger += restored
     current_hunger = min(current_hunger, max_hunger)
@@ -177,7 +257,7 @@ neglected and you need money! Your last resort digging holes on your farm! Sell\
 the items you find to pay your rent!!!")
     while True:
         answer = input("Please select an option \n[1] Dig a hole?\
-\n[2] Sell your items?\
+\n[2] Buy/Sell items?\
 \n[3] Eat some food?\
 \n[4] Sleep for the day\n")
         try: 
@@ -189,6 +269,7 @@ the items you find to pay your rent!!!")
             answer = int(answer)
             if(answer < 1 or answer > 4):
                 print("unfortunately you have not choosen a number 1-4")
+                continue
         if (answer == 1):
             if (holesdug == 3):
                 print("unfortunately you have no more digs left for the day")
@@ -213,12 +294,18 @@ you if you would like to sell an item select 2 if you wish to exit select 3?\
                     if(buying < 1 or buying > 3):
                         print("unfortunately you have not choosen a number 1-3")
                 if (buying == 1):
+                    print (f"The items avaliable to buy are {shop}")
                     whattobuy = input("What do you want to buy?\n")
-                    print(buy(whattobuy))
+                    message,money = buy(playersmoney,inventory,whattobuy)
+                    print(message)
+                    playersmoney = money
                 elif (buying == 2):
+                    print (f"Your current inventory is {inventory}")
                     whattosell = input("What do you want to sell?\n")
-                    print(sell(whattosell))
-                else:
+                    message,money = sell(playersmoney,inventory,whattosell)
+                    print(message)
+                    playersmoney = money
+                elif (buying == 3):
                     break
         elif (answer == 3):
              while (True):
