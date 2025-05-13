@@ -44,8 +44,26 @@ already been dug for the day. \n Please try again")
                     continue
             if ((hole >= 1 and hole <= 10) and hole not in\
                 holes_dug):
-                item_value =  randint(0, 100)
-                if (item_value <= 65):
+                empty_hole = randint(1,10)
+                item_value = "none" if hole == empty_hole else randint(0, 100)
+                if item_value == "none":
+                    print("Nothing in this hole :(")
+                    if (holes_dug_today == 1):
+                        print("You have 2 more digs remaining")
+                        holes_dug.append(hole)
+                        holes_dug_today += 1
+                        continue
+                    elif (holes_dug_today == 2):
+                        print("You have 1 more dig remaining")
+                        holes_dug.append(hole)
+                        holes_dug_today += 1
+                        continue
+                    else:
+                        print("You have no more digs remaining go sell your\
+items at the shop!!!")
+                        print (f"Your current inventory is {inventory}")
+                    return inventory, holes_dug_today
+                elif (item_value <= 65):
                     item_list = common_dictionary["common"]
                     # this range will be adjusted for items 
                     list_value = randint(0, 20)
@@ -76,7 +94,7 @@ valued at {inventory[key]}$")
                     inventory[key] = example_json_rarity2[key]
                     print(f"You have just recived a {key}, it is currently \
 valued at {inventory[key]}$")
-                else:
+                elif(item_value <= 100):
                     item_list = legendary_dictionary["legendary"]
                     list_value = randint(0, 4)
                     key = item_list[list_value]
