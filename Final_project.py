@@ -94,31 +94,31 @@ user = {
 }
 # example/mock shop data
 shop = {
-    "items" : {
         "banana" : 5,
         "apple" : 2,
         "gem" : 50
-    }
 }
 
-def buy(item):
-    price = shop["items"].get(item)
+def buy(money, inventory, item):
+    price = shop[item]
     if price is None:
         return f"Item '{item}' was not found in shop."
-    if user["money"] < price:
+    if money < price:
         return f"Not enough money for {item}."
+    if item in inventory:
+        return f"You already own {item}."
     
-    user["money"] -= price
-    user["inventory"].append(item)
+    inventory.append(item)
+    money -= price
     return f"{item} has been bought. Current balance: ${user['money']}"
 
-def sell(item):
-    if item not in user["inventory"]:
+def sell(money, inventory, item):
+    if item not in inventory:
         return f"{item} is not in inventory. Unable to sell."
     
-    price = shop["items"].get(item, 0)
-    user["money"] += price
-    user["inventory"].remove(item)
+    price = shop.get(item, 0)
+    money += price
+    inventory.remove(item)
     return f"{item} was sold! Current balance: ${user['money']}"
 
 # add healthbar and healthbar data - ian
