@@ -22,8 +22,8 @@ From my understanding we did not use any sources outside of the INST 326 course 
 | Sebastian Black | main | sequence unpacking | 
 | Aminata Kourouma | buy | f-strings | 
 | Aminata Kourouma | sell | ? | 
-| ? | ? | ? | 
-| ? | ? | ? | 
+| Ian Hutchison | pass_day| ? | 
+| Ian Hutchison| eat | ? | 
 | ? | ? | ? | 
 | ? | ? | ? | 
 
