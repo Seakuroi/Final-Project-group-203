@@ -20,8 +20,8 @@ From my understanding we did not use any sources outside of the INST 326 course 
 | --- | --- | --- | 
 | Sebastian Black | Digging_holes | conditional expressions | 
 | Sebastian Black | main | sequence unpacking | 
-| ? | ? | ? | 
-| ? | ? | ? | 
+| Aminata Kourouma | buy | f-strings | 
+| Aminata Kourouma | sell | ? | 
 | ? | ? | ? | 
 | ? | ? | ? | 
 | ? | ? | ? | 
