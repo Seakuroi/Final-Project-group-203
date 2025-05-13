@@ -181,8 +181,8 @@ def sell(money, inventory, item):
     if item not in inventory:
         return f"{item} is not in inventory. Unable to sell.",money
     
-    price = shop[item]
-    confirm = input(f"Selling {item} for ${inventory[item]}. Confirm sale? (y/n):")
+    price = inventory[item]
+    confirm = input(f"Selling {item} for ${price}. Confirm sale? (y/n):")
     if confirm.lower() != "y":
         return "Sale canceled.",money
     money += inventory[item]
