@@ -92,7 +92,7 @@ user = {
     "money" : 150,
     "inventory" : []
 }
-# example/mock shop data
+# shop data
 shop = {
         "banana" : 5,
         "apple" : 2,
@@ -108,6 +108,10 @@ def buy(money, inventory, item):
     if item in inventory:
         return f"You already own {item}."
     
+    confirm = input(f"Item: {item}, Price: ${price}. Confirm purchase? (y/n):")
+    if confirm.lower() != "y":
+        return "Purchase canceled."
+
     inventory.append(item)
     money -= price
     return f"{item} has been bought. Current balance: ${user['money']}"
@@ -115,6 +119,10 @@ def buy(money, inventory, item):
 def sell(money, inventory, item):
     if item not in inventory:
         return f"{item} is not in inventory. Unable to sell."
+    
+    confirm = input(f"Selling {item} for ${price}. Confirm sell? (y/n):")
+    if confirm.lower() != "y":
+        return "Sale canceled."
     
     price = shop.get(item, 0)
     money += price
