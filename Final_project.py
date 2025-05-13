@@ -241,14 +241,7 @@ class HungerBar:
     
         return self.current_hunger
 
-    def __repr__(self):
-        """
-        Represent the current state of the hunger simulator.
-        
-        Returns:
-        str: A string representation of the hunger simulator with current hunger status.
-        """
-        return f"HungerSimulator(current_hunger={self.current_hunger}, max_hunger={self.max_hunger})"
+
 hunger_bar = HungerBar()
 hunger_log = []
 hunger_log.append(5)
