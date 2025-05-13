@@ -181,7 +181,7 @@ def sell(money, inventory, item):
     if item not in inventory:
         return f"{item} is not in inventory. Unable to sell.",money
     
-    confirm = input(f"Selling {item} for ${price}. Confirm sale? (y/n):")
+    confirm = input(f"Selling {item} for ${inventory[item]}. Confirm sale? (y/n):")
     if confirm.lower() != "y":
         return "Sale canceled.",money
     money += inventory[item]
@@ -234,7 +234,7 @@ neglected and you need money! Your last resort digging holes on your farm! Sell\
 the items you find to pay your rent!!!")
     while True:
         answer = input("Please select an option \n[1] Dig a hole?\
-\n[2] Sell your items?\
+\n[2] Buy/Sell items?\
 \n[3] Eat some food?\
 \n[4] Sleep for the day\n")
         try: 
