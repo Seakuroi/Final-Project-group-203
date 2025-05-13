@@ -191,20 +191,43 @@ def sell(money, inventory, item):
 
 # add healthbar and healthbar data - ian
 #global values that will be changed/moved later
-current_hunger = 50
-max_hunger = 100
-def eat(food_item):
+current_hunger = 5
+max_hunger = 25
+food_items = {
+    "banana": {"name": "banana","restore": 3},
+    "apple": {"name": "apple","restore": 1},
+    "chicken": {"name": "chicken","restore": 6},
+    "steak": {"name": "steak","restore": 8},
+    "tuna": {"name": "tuna","restore": 4},
+    "cake": {"name": "cake","restore": 15},
+    "ice cream": {"name": "ice cream","restore": 10},
+    "pasta": {"name": "pasta","restore": 9},
+    "full restore": { "name": "full restore", "restore": 25}
+}
+
+def eat(food_name):
     global current_hunger
 
-    if not isinstance(food_item, dict) or 'name' not in food_item or 'restore' not in food_item:
-        print("Invalid food item.")
+    if food_name not in food_items:
+        print("Food item not found.")
         return
 
+    food_item = food_items[food_name]
     restored = food_item['restore']
     current_hunger += restored
     current_hunger = min(current_hunger, max_hunger)
 
     print(f"You ate {food_item['name']} and restored {restored} hunger.")
+    print(f"Current hunger: {current_hunger}/{max_hunger}")
+def pass_day(dug):
+    if dug > 1:
+        daily_hunger_loss = 5
+    else :
+        daily_hunger_loss = 2
+    global current_hunger
+    current_hunger -= daily_hunger_loss
+    current_hunger = max(current_hunger, 0)
+    print(f"A day has passed. Hunger decreased by {daily_hunger_loss}.")
     print(f"Current hunger: {current_hunger}/{max_hunger}")
 # create json file + find more specific algorithm - Seun
 # Deducts rent from the player's money at the end of each day.
@@ -301,24 +324,27 @@ you if you would like to exit select 2?\
                     if(eating < 1 or eating > 2):
                         print("unfortunately you have not choosen a number 1-2")
                  if (eating == 1):
+                    print (f"Your current inventory is {inventory}")
                     whattoeat = input("what item do you want to eat?\n")
                     print(eat(whattoeat))
-                 else:
+                 elif (eating == 2):
                     break
-             
-                     
-                
         elif (answer == 4):
+            pass_day(holesdug)
             holesdug = 1
             if (playersmoney > 299):
                 print("You did it you raised enough money to buy the land!!!")
                 print("CONGRATS!!!")
                 break
+            elif (current_hunger == 0):
+                print("unfortunately you starved to death better luck next\
+ time!!!\nMaybe try buying food at the shop?")
+                break
             else:
                 playersmoney, didyoulose = rent(playersmoney, 15, day)
                 if (didyoulose == True):
                     print("unfortunately your land was taken better luck next\
- time")
+time")
                     break
                 elif (playersmoney < 15):
                     print(f"You've gone into debt! you have {7-(day+1)} days\
