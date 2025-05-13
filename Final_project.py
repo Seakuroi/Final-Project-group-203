@@ -135,6 +135,19 @@ shop = {
 }
 
 def buy(money, inventory, item):
+    """Author: Aminata
+    Allows user to buy item from shop.
+
+    Args:
+    money (int): The player's amount of money.
+    inventory (list): The player's inventory.
+    item (str): The name of the item the player wishes to buy.
+
+    Returns:
+    money (int): The player's updated amount of money.
+    inventory (list): The player's updated inventory
+    str: Returns messages about the transaction.
+    """
     price = shop[item]
     if price is None:
         return f"Item '{item}' was not found in shop.", money
@@ -152,10 +165,23 @@ def buy(money, inventory, item):
     return f"{item} has been bought. Current balance: ${money}" ,money
 
 def sell(money, inventory, item):
+    """Author: Aminata
+    Allows user to sell item from their inventory.
+
+    Args:
+    money (int): The player's amount of money.
+    inventory (list): The player's inventory.
+    item (str): The name of the item the player wishes to sell.
+
+    Returns:
+    money (int): The player's updated amount of money.
+    inventory (list): The player's updated inventory
+    str: Returns messages about the sale.
+    """
     if item not in inventory:
         return f"{item} is not in inventory. Unable to sell.",money
     
-    confirm = input(f"Selling {item} for ${inventory[item]}. Confirm sell? (y/n):")
+    confirm = input(f"Selling {item} for ${price}. Confirm sale? (y/n):")
     if confirm.lower() != "y":
         return "Sale canceled.",money
     money += inventory[item]
