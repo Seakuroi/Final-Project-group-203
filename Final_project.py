@@ -328,10 +328,7 @@ you if you would like to exit select 2?\
                     print(eat(whattoeat))
                  elif (eating == 2):
                     break
-             
-                     
-                
-        else:
+        elif (answer == 4):
             pass_day(holesdug)
             holesdug = 1
             if (playersmoney > 299):
