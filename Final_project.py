@@ -1,6 +1,6 @@
 # Randomization + validation of user input algo - Sebas
 from random import randint
-
+import matplotlib.pyplot as plt
 def Digging_holes(inventory, holes_dug_today): 
         common_dictionary = {"common":["paper", "water bottle","can",\
 "scrap metal","plastic","rock","dirt","feather","shell","sticker","beer bottle"\
@@ -191,8 +191,7 @@ def sell(money, inventory, item):
 
 # add healthbar and healthbar data - ian
 #global values that will be changed/moved later
-current_hunger = 5
-max_hunger = 25
+
 food_items = {
     "banana": {"name": "banana","restore": 3},
     "apple": {"name": "apple","restore": 1},
@@ -205,6 +204,54 @@ food_items = {
     "full restore": { "name": "full restore", "restore": 25}
 }
 
+
+class HungerBar:
+    def __init__(self, max_hunger=25, current_hunger=5):
+        """Initialize the HungerBar class 
+        with the maximum hunger and starting hunger levels.
+
+        Args:
+        max_hunger (int): The maximum hunger level, default is 25.
+        current_hunger (int): The starting hunger level, default is 5.
+        """
+        self.max_hunger = max_hunger
+        self.current_hunger = current_hunger
+
+    def __call__(self, dug):
+        """
+        Simulate the passage of one day 
+        and decrease hunger accordingly when called.
+
+        Args:
+        dug (int): The number of times the user dug during the day. 
+                   A value greater than 1 increases hunger loss.
+
+        Returns:
+        int: The updated hunger level after the daily loss.
+        """
+       
+        daily_hunger_loss = 5 if dug > 1 else 2
+        self.current_hunger -= daily_hunger_loss
+        self.current_hunger = max(self.current_hunger, 0)
+
+       
+        print(f"A day has passed. Hunger decreased by {daily_hunger_loss}.")
+        print(f"Current hunger: {self.current_hunger}/{self.max_hunger}")
+        
+    
+        return self.current_hunger
+
+    def __repr__(self):
+        """
+        Represent the current state of the hunger simulator.
+        
+        Returns:
+        str: A string representation of the hunger simulator with current hunger status.
+        """
+        return f"HungerSimulator(current_hunger={self.current_hunger}, max_hunger={self.max_hunger})"
+hunger_bar = HungerBar()
+hunger_log = []
+hunger_log.append(5)
 def eat(food_name):
     """Consume a food item to restore hunger based on its name.
     
@@ -216,7 +263,6 @@ def eat(food_name):
     and the current hunger level. If the food name is invalid, 
     prints an error message instead.
     """
-    global current_hunger
 
     if food_name not in food_items:
         print("Food item not found.")
@@ -224,23 +270,34 @@ def eat(food_name):
 
     food_item = food_items[food_name]
     restored = food_item['restore']
-    current_hunger += restored
-    current_hunger = min(current_hunger, max_hunger)
+    hunger_bar.current_hunger += restored
+    hunger_bar.current_hunger = min( hunger_bar.current_hunger, hunger_bar.max_hunger)
 
     print(f"You ate {food_item['name']} and restored {restored} hunger.")
-    print(f"Current hunger: {current_hunger}/{max_hunger}")
-def pass_day(dug):
-   
-    if dug > 1:
-        daily_hunger_loss = 5
-    else :
-        daily_hunger_loss = 2
-    global current_hunger
-    current_hunger -= daily_hunger_loss
-    current_hunger = max(current_hunger, 0)
-  
-    print(f"A day has passed. Hunger decreased by {daily_hunger_loss}.")
-    print(f"Current hunger: {current_hunger}/{max_hunger}")
+    print(f"Current hunger: { hunger_bar.current_hunger}/{ hunger_bar.max_hunger}")
+    
+
+def plot_hunger_over_time(hunger_log):
+    """
+    Visualize the hunger level over time using a line plot.
+
+    Args:
+    hunger_log (list of int): A list of hunger values recorded at each game step.
+
+    Returns:
+    None: Displays a plot of hunger vs. time.
+    """
+    days = list(range(1, len(hunger_log) + 1))
+    plt.figure(figsize=(10, 5))
+    plt.plot(days, hunger_log, marker='o', linestyle='-', color='orange')
+    plt.title("Hunger Over Time")
+    plt.xlabel("Day")
+    plt.ylabel("Hunger Level")
+    plt.ylim(0, hunger_bar.max_hunger)
+    plt.grid(True)
+    plt.tight_layout()
+    plt.show()
+
     
         
 # create json file + find more specific algorithm - Seun
@@ -324,7 +381,7 @@ you if you would like to sell an item select 2 if you wish to exit select 3?\
                     break
         elif (answer == 3):
              while (True):
-                 print(f"You're current hunger level is at {current_hunger}")
+                 print(f"You're current hunger level is at { hunger_bar.current_hunger}")
                  eating = input("if you would like to eat some food select 1 if \
 you if you would like to exit select 2?\
 \n[1] Eat some food?\n[2] exit?\n")
@@ -344,13 +401,13 @@ you if you would like to exit select 2?\
                  elif (eating == 2):
                     break
         elif (answer == 4):
-            pass_day(holesdug)
+            hunger_log.append(hunger_bar(holesdug))
             holesdug = 1
             if (playersmoney > 299):
                 print("You did it you raised enough money to buy the land!!!")
                 print("CONGRATS!!!")
                 break
-            elif (current_hunger == 0):
+            elif ( hunger_bar.current_hunger == 0):
                 print("unfortunately you starved to death better luck next\
  time!!!\nMaybe try buying food at the shop?")
                 break
@@ -372,3 +429,5 @@ time")
 
 if __name__ == "__main__":
     main()
+    # Plot hunger over course of game
+plot_hunger_over_time(hunger_log)
