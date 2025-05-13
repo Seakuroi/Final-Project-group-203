@@ -123,7 +123,7 @@ def sell(item):
 
 # add healthbar and healthbar data - ian
 #global values that will be changed/moved later
-current_hunger = 50
+current_hunger = 5
 max_hunger = 100
 def eat(food_item):
     global current_hunger
@@ -137,6 +137,16 @@ def eat(food_item):
     current_hunger = min(current_hunger, max_hunger)
 
     print(f"You ate {food_item['name']} and restored {restored} hunger.")
+    print(f"Current hunger: {current_hunger}/{max_hunger}")
+def pass_day(dug):
+    if dug > 1:
+        daily_hunger_loss = 5
+    else :
+        daily_hunger_loss = 2
+    global current_hunger
+    current_hunger -= daily_hunger_loss
+    current_hunger = max(current_hunger, 0)
+    print(f"A day has passed. Hunger decreased by {daily_hunger_loss}.")
     print(f"Current hunger: {current_hunger}/{max_hunger}")
 # create json file + find more specific algorithm - Seun
 # Deducts rent from the player's money at the end of each day.
@@ -234,6 +244,7 @@ you if you would like to exit select 2?\
                      
                 
         else:
+            pass_day(holesdug)
             holesdug = 1
             if (playersmoney > 299):
                 print("You did it you raised enough money to buy the land!!!")
