@@ -181,7 +181,8 @@ def sell(money, inventory, item):
     if item not in inventory:
         return f"{item} is not in inventory. Unable to sell.",money
     
-    confirm = input(f"Selling {item} for ${inventory[item]}. Confirm sale? (y/n):")
+    price = inventory[item]
+    confirm = input(f"Selling {item} for ${price}. Confirm sale? (y/n):")
     if confirm.lower() != "y":
         return "Sale canceled.",money
     money += inventory[item]
@@ -333,25 +334,27 @@ you if you would like to exit select 2?\
                     if(eating < 1 or eating > 2):
                         print("unfortunately you have not choosen a number 1-2")
                  if (eating == 1):
+                    print (f"Your current inventory is {inventory}")
                     whattoeat = input("what item do you want to eat?\n")
                     print(eat(whattoeat))
-                 else:
+                 elif (eating == 2):
                     break
-             
-                     
-                
-        else:
+        elif (answer == 4):
             pass_day(holesdug)
             holesdug = 1
             if (playersmoney > 299):
                 print("You did it you raised enough money to buy the land!!!")
                 print("CONGRATS!!!")
                 break
+            elif (current_hunger == 0):
+                print("unfortunately you starved to death better luck next\
+ time!!!\nMaybe try buying food at the shop?")
+                break
             else:
                 playersmoney, didyoulose = rent(playersmoney, 15, day)
                 if (didyoulose == True):
                     print("unfortunately your land was taken better luck next\
- time")
+time")
                     break
                 elif (playersmoney < 15):
                     print(f"You've gone into debt! you have {7-(day+1)} days\
