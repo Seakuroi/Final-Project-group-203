@@ -230,6 +230,7 @@ def eat(food_name):
     print(f"You ate {food_item['name']} and restored {restored} hunger.")
     print(f"Current hunger: {current_hunger}/{max_hunger}")
 def pass_day(dug):
+   
     if dug > 1:
         daily_hunger_loss = 5
     else :
@@ -237,8 +238,11 @@ def pass_day(dug):
     global current_hunger
     current_hunger -= daily_hunger_loss
     current_hunger = max(current_hunger, 0)
+  
     print(f"A day has passed. Hunger decreased by {daily_hunger_loss}.")
     print(f"Current hunger: {current_hunger}/{max_hunger}")
+    
+        
 # create json file + find more specific algorithm - Seun
 # Deducts rent from the player's money at the end of each day.
 def rent(player_money, rent_amount, day_number, eviction_day=7):
