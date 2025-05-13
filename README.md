@@ -24,6 +24,6 @@ From my understanding we did not use any sources outside of the INST 326 course 
 | Aminata Kourouma | sell | ? | 
 | Ian Hutchison | pass_day| ? | 
 | Ian Hutchison| eat | ? | 
-| ? | ? | ? | 
-| ? | ? | ? | 
+| Seun Adebanjo | json | use of json dump | 
+| Seun Adebanjo | rent | f-strings | 
 
