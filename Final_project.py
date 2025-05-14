@@ -259,7 +259,7 @@ class HungerBar:
 hunger_bar = HungerBar()
 hunger_log = []
 hunger_log.append(5)
-def eat(food_name):
+def eat(food_name,inventory):
     """Consume a food item to restore hunger based on its name.
     
     Args:
@@ -279,7 +279,7 @@ def eat(food_name):
     restored = food_item['restore']
     hunger_bar.current_hunger += restored
     current_hunger = min(hunger_bar.current_hunger, hunger_bar.max_hunger)
-    del food_items[food_name]
+    del inventory[food_name]
     hunger_bar.current_hunger += restored
     hunger_bar.current_hunger = min( hunger_bar.current_hunger, hunger_bar.max_hunger)
 
