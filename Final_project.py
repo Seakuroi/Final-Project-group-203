@@ -286,6 +286,7 @@ def eat(food_name):
     print(f"You ate {food_item['name']} and restored {restored} hunger.")
     print(f"Current hunger: { hunger_bar.current_hunger}/{ hunger_bar.max_hunger}")
     
+    
 
 def plot_hunger_over_time(hunger_log):
     """
